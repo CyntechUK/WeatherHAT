@@ -25,7 +25,8 @@ Install UnicornHAT library:
 Get the current files:
 
     git clone https://github.com/CyntechUK/WeatherHAT.git
-    cd CyntechUK
+    cd WeatherHAT
+    sudo python cycle.py
 
 Run the cycle.py to enable a short demo of the LEDs
 
