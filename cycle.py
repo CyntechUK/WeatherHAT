@@ -19,6 +19,8 @@ while True:
   sleep(3)
   wh.sun("start")
   wh.cloud("stop")
-  wh.rainbow()
+  wh.rainbow("start")
+  sleep(3)
+  wh.rainbow("stop")
   
   sleep(10)

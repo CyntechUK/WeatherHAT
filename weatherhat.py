@@ -3,12 +3,13 @@ import gpiozero
 import RPi.GPIO as rpi
 from time import sleep
 import threading
-import unicornhat as unicorn
-import math, colorsys
-
+from neopixel import *
 bus = 0
 
+panel = Adafruit_NeoPixel(64, 18, 800000, 5, False, 50)
+panel.begin()
 
+color = Color(255,255,255)
 
 def frange(start, stop, step):
   i = start
@@ -276,28 +277,27 @@ class WeatherHat(threading.Thread):
 
 
 
-  def rainbow(self):
-    i = 0.0
-    offset = 30
-    count = 0
-    while count < 300:
-      i = i + 0.3
-      for y in range(8):
-        for x in range(8):
-          r = 0#x * 32
-          g = 0#y * 32
-          xy = x + y / 4
-          r = (math.cos((x+i)/2.0) + math.cos((y+i)/2.0)) * 64.0 + 128.0
-          g = (math.sin((x+i)/1.5) + math.sin((y+i)/2.0)) * 64.0 + 128.0
-          b = (math.sin((x+i)/2.0) + math.cos((y+i)/1.5)) * 64.0 + 128.0
-          r = max(0, min(255, r + offset))
-          g = max(0, min(255, g + offset))
-          b = max(0, min(255, b + offset))
-          unicorn.set_pixel(x,y,int(r),int(g),int(b))    
-      unicorn.show()
-      sleep(0.01)
-      count = count + 1
+  def rainbow(self,action):
+    if action == "start":
+      panel.setPixelColor(0,Color(0,255,0))
+      panel.setPixelColor(1,Color(50,255,0))
+      panel.setPixelColor(2,Color(255,255,0))
+      panel.setPixelColor(3,Color(255,0,0))
+      panel.setPixelColor(4,Color(0,0,255))
+      panel.setPixelColor(5,Color(0,255,50))
+      panel.setPixelColor(6,Color(0,255,255))
 
-    unicorn.clear()
-    unicorn.show()
+      panel.show()
+
+    if action == "stop":
+      panel.setPixelColor(0,Color(0,0,0))
+      panel.setPixelColor(1,Color(0,0,0))
+      panel.setPixelColor(2,Color(0,0,0))
+      panel.setPixelColor(3,Color(0,0,0))
+      panel.setPixelColor(4,Color(0,0,0))
+      panel.setPixelColor(5,Color(0,0,0))
+      panel.setPixelColor(6,Color(0,0,0))
+
+      panel.show()
+
     
