@@ -1,25 +1,34 @@
 # Weather Display using Cyntech's WeatherHAT
 #  by LeRoy Miller, (C) April 2018
+# updated for Open Weather API Sep, 28 2020 LeRoy Miller (c) copywrite 2020
 # required libraries:
-# weather-api (current version) https://pypi.python.org/pypi/weather-api/0.0.5
 # install the WeatherHAT library following this guide
 # https://github.com/CyntechUK/WeatherHAT
+#
+# The Open Weather Map API example was found here:
+# https://www.geeksforgeeks.org/python-find-current-weather-of-any-city-using-openweathermap-api/
+# This code is based on the above work.
 #
 # This is still being tested, but appears to work.
 # You need to change your location below either by City name, or Zip Code
 # more information can be found on the weather-api site
 #
 # Most conditions are displayed - but not all (not sure how to display things like Haze and Fog
-# For a list of Yahoo conditions:
-# https://developer.yahoo.com/weather/documentation.html#codes
+# For a list of Open Weather Map conditions:
+# https://openweathermap.org/weather-conditions
 
-from weather import Weather
 from weatherhat import WeatherHat
 from time import sleep
 from neopixel import *
+import requests, json 
+
+# Enter your Open Weather Map API key here 
+api_key = ""
+base_url = "http://api.openweathermap.org/data/2.5/weather?"
+city_name = "Dayton" 
+complete_url = base_url + "appid=" + api_key + "&q=" + city_name 
 
 wh = WeatherHat()
-weather = Weather()
 panel = Adafruit_NeoPixel(64,18,800000, 5, False, 50)
 panel.begin()
 
@@ -38,63 +47,64 @@ wh.rainbow("start")
 wh.rainbow("stop")
 
 while True:
-	#location = weather.lookup_by_location('dayton')
-	location = weather.lookup(45042)
-	condition = location.condition()
-	print(condition.text())
-	test = condition.text()
-	#print "Rain" in test
+	
+	response = requests.get(complete_url)
+	x = response.json()
+	if x["cod"] != "404":
+		y = x["main"]
+		z = x["weather"]
+		#test = z[0]["description"]
+		test = z[0]["main"]
+		print(test)
 
-#while True:
- 	
 	if "Rain" in test:
-  	  wh.cloud("start")
-  	  wh.raining("start")
+		wh.cloud("start")
+		wh.raining("start")
 
 	if "Snow" in test:
-	  wh.cloud("start")
-	  panel.setPixelColor(0,Color(255,255,255))
-	  panel.setPixelColor(2,Color(255,255,255))
-	  panel.setPixelColor(4,Color(255,255,255))
-	  panel.setPixelColor(6,Color(255,255,255))
-	  panel.show()
-	  #wh.rainbow("start")
+		wh.cloud("start")
+		panel.setPixelColor(0,Color(255,255,255))
+		panel.setPixelColor(2,Color(255,255,255))
+		panel.setPixelColor(4,Color(255,255,255))
+		panel.setPixelColor(6,Color(255,255,255))
+		panel.show()
+		#wh.rainbow("start")
 
-	if "Thunderstorms" in test:	
-	  wh.cloud("start")
-	  wh.raining("start")
-	  wh.storm("start")
+	if "Thunderstorm" in test:	
+		wh.cloud("start")
+		wh.raining("start")
+		wh.storm("start")
 
 	if "Storm" in test:
-	  wh.cloud("start")
-	  wh.raining("start")
-	  wh.storm("start")
+		wh.cloud("start")
+		wh.raining("start")
+		wh.storm("start")
 
 	if "Sunny" in test:
-	  wh.sun("start")
+		wh.sun("start")
 
 	#if "Hurrican" in test:
 	#if "Tornado" in test:
 	#if "Sleet" in test:
 
 	if "Drizzle" in test:
-	  wh.cloud("start")
-	  wh.raining("start")
+		wh.cloud("start")
+		wh.raining("start")
 
 	if "Showers" in test:
-	  wh.cloud("start")
-	  wh.raining("start")
+		wh.cloud("start")
+		wh.raining("start")
 
 	#if "Hail" in test:
 	#if "Dust" in test:
 	#if "Fog" in test:
 	#if "Haze" in test:
 
-	if "Cloudy" in test:
-	  wh.cloud("start")
+	if "Clouds" in test:
+		wh.cloud("start")
 
 	if "Not" in test:
-	  wh.rainbow("start")
+		wh.rainbow("start")
 
 	sleep(60 * 5)
 
