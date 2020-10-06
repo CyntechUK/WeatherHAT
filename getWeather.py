@@ -26,7 +26,28 @@ import requests, json
 api_key = ""
 base_url = "http://api.openweathermap.org/data/2.5/weather?"
 city_name = "Dayton" 
+#Examples of other citys (near me of course)
+#city_name = "Dayton, OH, US" 
+#city_name = "Cincinnati"
+#city_name = "Middletown, OH, US"
+#city_name = "Wilmington, OH, US"
+
+#Below is the part of the URL you would change (if needed)
 complete_url = base_url + "appid=" + api_key + "&q=" + city_name 
+
+#By city ID
+#complete_url = base_url + "appid=" + api_key + "&id=" + city_name
+
+#By Zip code
+#complete_url = base_url + "appid=" + api_key + "&zip=" + city_name
+
+#By Latitude/Longitude (geographic coordinates)
+#note two new variables are used lat and lon
+#lat = "39.5352433"
+#lon = "-84.3816072"
+#complete_url = base_url + "appid=" + api_key + "&lat=" + lat + "&lon=" + lon
+
+
 
 wh = WeatherHat()
 panel = Adafruit_NeoPixel(64,18,800000, 5, False, 50)
@@ -45,6 +66,7 @@ sleep(.5)
 wh.storm("stop")
 wh.rainbow("start")
 wh.rainbow("stop")
+sleep(.5)
 
 while True:
 	
@@ -106,6 +128,9 @@ while True:
 	if "Not" in test:
 		wh.rainbow("start")
 
+	if "Clear" in test:
+		wh.sun("start")
+
 	sleep(60 * 5)
 
 	wh.raining("stop")
@@ -113,6 +138,7 @@ while True:
 	wh.storm("stop")
 	wh.sun("stop")
 	wh.rainbow("stop")
+	sleep(2)
 	panel.setPixelColor(0,Color(0,0,0))
 	panel.setPixelColor(2,Color(0,0,0))
 	panel.setPixelColor(4,Color(0,0,0))
