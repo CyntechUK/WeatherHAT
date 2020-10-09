@@ -73,32 +73,32 @@ while True:
 	dist = rad2deg(dist)
 	miles = dist * 60 * 1.1515
 	distance = int(miles)
-	print(distance)
+	print("Distance: " , distance , " miles.")
 
-if distance <= 1350 and distance >= 1201:
-	clearPixels()
-	panel.setPixelColor(0,Color(255,255,255))
-	panel.setPixelColor(6,Color(255,255,255))
-	panel.show()
+	if distance <= 1350 and distance >= 1201:
+		clearPixels()
+		panel.setPixelColor(0,Color(0,255,0))
+		panel.setPixelColor(6,Color(0,255,0))
+		panel.show()
 
-if distance <=1200 and distance >=1151:
-	clearPixels()
-	panel.setPixelColor(1,Color(255,153,0))
-	panel.setPixelColor(5,Color(255,153,0))
-	panel.show()
+	if distance <=1200 and distance >=1151:
+		clearPixels()
+		panel.setPixelColor(1,Color(165,255,0))
+		panel.setPixelColor(5,Color(165,255,0))
+		panel.show()
 
-if distance <=1150 and distance >= 951:
-	clearPixels()
-	panel.setPixelColor(2,Color(0,255,0))
-	panel.setPixelColor(4,Color(0,255,0))
-	panel.show()
+	if distance <=1150 and distance >= 951:
+		clearPixels()
+		panel.setPixelColor(2,Color(255,0,0))
+		panel.setPixelColor(4,Color(255,0,0))
+		panel.show()
 
-if distance <= 950:
-	clearPixels()
-	panel.setPixelColor(3,Color(0,255,0))
-	panel.show()
+	if distance <= 950:
+		clearPixels()
+		panel.setPixelColor(3,Color(255,0,0))
+		panel.show()
 
-if distance >= 1351:
-	clearPixels()
+	if distance >= 1351:
+		clearPixels()
 
-sleep(1)
+sleep(5)
