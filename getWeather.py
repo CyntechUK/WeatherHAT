@@ -48,13 +48,12 @@ complete_url = base_url + "appid=" + api_key + "&q=" + city_name
 #complete_url = base_url + "appid=" + api_key + "&lat=" + lat + "&lon=" + lon
 
 #Set up the HAT hardware
-
 wh = WeatherHat()
 panel = Adafruit_NeoPixel(64,18,800000, 5, False, 50)
 panel.begin()
 
 # Set up the weather conditions, these are the ID values from https://openweathermap.org/weather-conditions
-# Looking at the list of IDs is should be clear what is going on here.
+# Looking at the list of IDs it should be clear what is going on here.
 
 #Rain
 rainlo = 500
@@ -139,7 +138,6 @@ overcasthi = 804
 #tornadohi = 781
 
 #Cycle the display at the start of the script
-
 wh.sun("start")
 sleep(.5)
 wh.sun("stop")
