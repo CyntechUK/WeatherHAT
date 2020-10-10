@@ -47,13 +47,101 @@ complete_url = base_url + "appid=" + api_key + "&q=" + city_name
 #lon = "-84.3816072"
 #complete_url = base_url + "appid=" + api_key + "&lat=" + lat + "&lon=" + lon
 
-
+#Set up the HAT hardware
 
 wh = WeatherHat()
 panel = Adafruit_NeoPixel(64,18,800000, 5, False, 50)
 panel.begin()
 
+# Set up the weather conditions, these are the ID values from https://openweathermap.org/weather-conditions
+# Looking at the list of IDs is should be clear what is going on here.
+
+#Rain
+rainlo = 500
+rainhi = 511
+
+#Rain Shower
+rainshowerlo = 520
+rainshowerhi = 531
+
+#Snow
+snowlo = 600
+snowhi = 611
+
+#Snow Shower
+snowshowerlo = 612
+snowshowerhi = 622
+
+#Thunderstorm
+tstormlo = 200
+tstormhi = 232
+
+#Sunny or clear
+sunlo = 800
+sunhi = 800
+
+#Drizzle
+drizzlelo = 300
+drizzlehi = 310
+
+#Drizzle shower
+drizzlesholo = 311
+drizzleshohi = 321
+
+#Scattered Clouds
+cloudlo = 801
+cloudhi = 802
+
+#Overcast
+overcastlo = 803
+overcasthi = 804
+
+#These conditions are unused at the moment but included for completeness.
+
+#Mist
+#mistlo = 701
+#misthi = 701
+
+#Smoke
+#smokelo = 711
+#smokehi = 711
+
+#Haze
+#hazelo = 721
+#hazehi = 721
+
+#Dust, sand/ dust whirls
+#dust1lo = 731
+#dust1hi = 731
+
+#Fog
+#foglo = 741
+#foghi = 741
+
+#Sand
+#sandlo = 751
+#sandhi = 751
+
+#Dust
+#dust2lo = 761
+#dust2hi = 761
+
+#Volcanic ash
+#ashlo = 762
+#ashhi = 762
+
+#Squall - Showers ?
+#squalllo = 771
+#squallhi = 771
+
+#Tornado
+#tornadolo = 781
+#tornadohi = 781
+
+#Cycle the display at the start of the script
+
 wh.sun("start")
+sleep(.5)
 wh.sun("stop")
 wh.cloud("start")
 sleep(.5)
@@ -65,71 +153,89 @@ wh.storm("start")
 sleep(.5)
 wh.storm("stop")
 wh.rainbow("start")
-wh.rainbow("stop")
 sleep(.5)
+wh.rainbow("stop")
+sleep(1)
 
 while True:
 	
 	response = requests.get(complete_url)
 	x = response.json()
 	if x["cod"] != "404":
-		y = x["main"]
+		y = x["id"]
 		z = x["weather"]
-		#test = z[0]["description"]
-		test = z[0]["main"]
+		test = z[0]["id"]
 		print(test)
 
-	if "Rain" in test:
+# Compare current weather to the rain list
+
+	if test >= rainlo and test <= rainhi:
 		wh.cloud("start")
 		wh.raining("start")
 
-	if "Snow" in test:
+# Compare current weather to the rain shower list
+
+	if test >= rainshowerlo and test <= rainshowerhi:
+		wh.cloud("start")
+		wh.raining("start")
+		wh.rainbow("start")
+   
+# Compare current weather to the snow list
+
+	if test >= snowlo and test <= snowhi:
 		wh.cloud("start")
 		panel.setPixelColor(0,Color(255,255,255))
 		panel.setPixelColor(2,Color(255,255,255))
 		panel.setPixelColor(4,Color(255,255,255))
 		panel.setPixelColor(6,Color(255,255,255))
 		panel.show()
-		#wh.rainbow("start")
+	
+# Compare current weather to the snow shower list
 
-	if "Thunderstorm" in test:	
+	if test >= snowshowerlo and test <= snowshowerhi:
 		wh.cloud("start")
-		wh.raining("start")
-		wh.storm("start")
-
-	if "Storm" in test:
-		wh.cloud("start")
-		wh.raining("start")
-		wh.storm("start")
-
-	if "Sunny" in test:
-		wh.sun("start")
-
-	#if "Hurrican" in test:
-	#if "Tornado" in test:
-	#if "Sleet" in test:
-
-	if "Drizzle" in test:
-		wh.cloud("start")
-		wh.raining("start")
-
-	if "Showers" in test:
-		wh.cloud("start")
-		wh.raining("start")
-
-	#if "Hail" in test:
-	#if "Dust" in test:
-	#if "Fog" in test:
-	#if "Haze" in test:
-
-	if "Clouds" in test:
-		wh.cloud("start")
-
-	if "Not" in test:
+		panel.setPixelColor(0,Color(255,255,255))
+		panel.setPixelColor(2,Color(255,255,255))
+		panel.setPixelColor(4,Color(255,255,255))
+		panel.setPixelColor(6,Color(255,255,255))
+		panel.show()
 		wh.rainbow("start")
+	
+# Compare current weather to the thunderstorm list
+		
+	if test >= tstormlo and test <= tstormhi:
+		wh.cloud("start")
+		wh.raining("start")
+		wh.storm("start")
 
-	if "Clear" in test:
+# Compare current weather to the sunny list
+
+	if test >= sunlo and test <= sunhi:
 		wh.sun("start")
+
+# Compare current weather to the drizzle list	
+		
+	if test >= drizzlelo and test <= drizzlehi:	
+		wh.cloud("start")
+		wh.raining("start")	
+		
+		# Compare current weather to the drizzle shower list	
+		
+	if test >= drizzlesholo and test <= drizzleshohi:	
+		wh.cloud("start")
+		wh.raining("start")	
+
+# Compare current weather to the scattered clouds list	
+
+	if test >= cloudlo and test <= cloudhi:	
+		wh.cloud("start")
+		wh.sun("start")
+
+# Compare current weather to the overcast list	
+
+	if test >= overcastlo and test <= overcasthi:	
+		wh.cloud("start")
+
 
 	sleep(60 * 5)
 
