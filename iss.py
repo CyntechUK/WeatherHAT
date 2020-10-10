@@ -59,7 +59,7 @@ sleep(.05)
 wh.storm("stop")
 wh.rainbow("start")
 wh.rainbow("stop")
-sleep(.5)
+sleep(.05)
 
 while True:
 	
@@ -101,4 +101,4 @@ while True:
 	if distance >= 1351:
 		clearPixels()
 
-sleep(5)
+	sleep(5.0)
