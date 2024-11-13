@@ -1,3 +1,3 @@
 # WeatherHAT
 
-Instructions available at http://guides.cyntech.co.uk/weatherhat/getting-started/
+Instructions available at https://cyntech.co.uk/getting-started-with-the-weatherhat
