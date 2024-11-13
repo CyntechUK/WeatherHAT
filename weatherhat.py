@@ -3,7 +3,7 @@ import gpiozero
 import RPi.GPIO as rpi
 from time import sleep
 import threading
-from neopixel import *
+from rpi_ws281x import *
 bus = 0
 
 panel = Adafruit_NeoPixel(64, 18, 800000, 5, False, 50)
