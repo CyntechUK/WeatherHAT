@@ -279,13 +279,13 @@ class WeatherHat(threading.Thread):
 
   def rainbow(self,action):
     if action == "start":
-      panel.setPixelColor(0,Color(0,255,0))
-      panel.setPixelColor(1,Color(50,255,0))
+      panel.setPixelColor(0,Color(255,0,0))
+      panel.setPixelColor(1,Color(255,50,0))
       panel.setPixelColor(2,Color(255,255,0))
-      panel.setPixelColor(3,Color(255,0,0))
+      panel.setPixelColor(3,Color(0,255,0))
       panel.setPixelColor(4,Color(0,0,255))
-      panel.setPixelColor(5,Color(0,255,50))
-      panel.setPixelColor(6,Color(0,255,255))
+      panel.setPixelColor(5,Color(255,0,50))
+      panel.setPixelColor(6,Color(255,0,255))
 
       panel.show()
 
